@@ -13,7 +13,7 @@ var (
 func StartApplication() {
 	mapUrls()
 
-	if err := router.Run(":8080"); err != nil {
+	if err := router.Run(":8900"); err != nil {
 		fmt.Println("Couldn't start the server at port 8080")
 	}
 }
