@@ -10,3 +10,4 @@ sdsd
 
 Note: Change the mysql dummy credentials.
 
+jenkins test
