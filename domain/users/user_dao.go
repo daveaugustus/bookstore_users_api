@@ -13,7 +13,7 @@ var (
 )
 
 func (user *User) Get() *errors.RestErr {
-	if err := users_db.CLient.Ping(); err != nil {
+	if err := users_db.Client.Ping(); err != nil {
 		panic(err)
 	}
 	result := userDB[user.Id]
