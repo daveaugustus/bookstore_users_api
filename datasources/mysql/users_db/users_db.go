@@ -9,13 +9,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// type dbCred struct {
-// 	username string
-// 	password string
-// 	host     string
-// 	schema   string
-// }
-
 const (
 	mysql_users_username = "mysql_users_username"
 	mysql_users_password = "mysql_users_password"
@@ -34,7 +27,7 @@ var (
 )
 
 func init() {
-	// Testing in a local machine
+
 	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", username, password, host, schema)
 
 	Client, err = sql.Open("mysql", dataSourceName)
