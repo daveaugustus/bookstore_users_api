@@ -26,10 +26,10 @@ func NewNotFoundError(message string) *RestErr {
 	}
 }
 
-// func NewBadRequestErr(message string) *RestErr {
-// 	return &RestErr{
-// 		Message: message,
-// 		Status:  http.StatusBadGateway,
-// 		Error:   "bad-request",
-// 	}
-// }
+func NewInternalServerError(message string) *RestErr {
+	return &RestErr{
+		Message: message,
+		Status:  http.StatusInternalServerError,
+		Error:   "internal-server-error",
+	}
+}
