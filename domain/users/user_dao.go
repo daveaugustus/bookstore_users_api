@@ -1,6 +1,8 @@
 package users
 
 import (
+	"fmt"
+
 	"github.com/davetweetlive/bookstore_users_api/datasources/mysql/users_db"
 	"github.com/davetweetlive/bookstore_users_api/utils/date_utils"
 	"github.com/davetweetlive/bookstore_users_api/utils/errors"
@@ -11,6 +13,7 @@ const (
 	errorNoRows     = "no rows in result set"
 	queryInsertUser = "INSERT INTO users(first_name, last_name, email, date_created) VALUES(?, ?, ?, ?);"
 	queryGetUser    = "SELECT id, first_name, last_name, email, date_created FROM users where id=?;"
+	queryUpdateUser = "UPDATE users SET first_name=?, last_name=?, email=?  WHERE id=?;"
 )
 
 func (user *User) Get() *errors.RestErr {
@@ -45,5 +48,21 @@ func (user *User) Save() *errors.RestErr {
 		return mysql_utils.ParseError(saveErr)
 	}
 	user.Id = userId
+	return nil
+}
+
+func (user *User) Update() *errors.RestErr {
+	stmt, err := users_db.Client.Prepare(queryUpdateUser)
+	if err != nil {
+		fmt.Println("First", err)
+		return errors.NewInternalServerError(err.Error())
+	}
+	defer stmt.Close()
+
+	_, err = stmt.Exec(user.FirstName, user.LastName, user.Email, user.Id)
+	if err != nil {
+		fmt.Println(err)
+		return mysql_utils.ParseError(err)
+	}
 	return nil
 }
