@@ -21,7 +21,7 @@ func getUserId(userIdParam string) (int64, *errors.RestErr) {
 }
 
 // CreateUser takes the request in JSON format in the following formate
-// { "id": 123, "first_name": "Dave", "last_name": "Aug", "email": "dave@gmail.com" }
+// { "first_name": "Dave", "last_name": "Aug", "email": "dave@gmail.com" }
 // ReadAll read the body which contains JSON and unmarshal to user var
 // Calls the CreateUser function passing user struct as an argument
 func Create(c *gin.Context) {
@@ -100,6 +100,12 @@ func Delete(c *gin.Context) {
 	c.JSON(http.StatusOK, map[string]string{"status": "deleted"})
 }
 
-func SearchUser(c *gin.Context) {
-	c.String(http.StatusNotImplemented, "Implement me")
+func Search(c *gin.Context) {
+	status := c.Query("status")
+	users, err := services.Search(status)
+	if err != nil {
+		c.JSON(err.Status, err)
+		return
+	}
+	c.JSON(http.StatusOK, users)
 }
