@@ -15,7 +15,6 @@ type PrivateUser struct {
 	Email       string `json:"email"`
 	DateCreated string `json:"created_at"`
 	Status      string `json:"status"`
-	//Password    string `json:"password"`
 }
 
 func (users Users) Marshall(isPublic bool) []interface{} {

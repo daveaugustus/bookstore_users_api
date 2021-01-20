@@ -20,10 +20,6 @@ func getUserId(userIdParam string) (int64, *errors.RestErr) {
 	return userId, nil
 }
 
-// CreateUser takes the request in JSON format in the following formate
-// { "first_name": "Dave", "last_name": "Aug", "email": "dave@gmail.com" }
-// ReadAll read the body which contains JSON and unmarshal to user var
-// Calls the CreateUser function passing user struct as an argument
 func Create(c *gin.Context) {
 	var user users.User
 
