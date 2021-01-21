@@ -20,10 +20,6 @@ func getUserId(userIdParam string) (int64, *errors.RestErr) {
 	return userId, nil
 }
 
-// CreateUser takes the request in JSON format in the following formate
-// { "first_name": "Dave", "last_name": "Aug", "email": "dave@gmail.com" }
-// ReadAll read the body which contains JSON and unmarshal to user var
-// Calls the CreateUser function passing user struct as an argument
 func Create(c *gin.Context) {
 	var user users.User
 
@@ -45,7 +41,7 @@ func Create(c *gin.Context) {
 		c.JSON(saveError.Status, saveError)
 		return
 	}
-	c.JSON(http.StatusCreated, result)
+	c.JSON(http.StatusCreated, result.Marshall(c.GetHeader("X-Public") == "true"))
 }
 
 func Get(c *gin.Context) {
@@ -59,7 +55,7 @@ func Get(c *gin.Context) {
 		c.JSON(getErr.Status, getErr)
 		return
 	}
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, user.Marshall(c.GetHeader("X-Public") == "true"))
 }
 
 func Update(c *gin.Context) {
@@ -83,7 +79,7 @@ func Update(c *gin.Context) {
 		c.JSON(err.Status, err)
 		return
 	}
-	c.JSON(http.StatusOK, result)
+	c.JSON(http.StatusOK, result.Marshall(c.GetHeader("X-Public") == "true"))
 }
 
 func Delete(c *gin.Context) {
@@ -107,5 +103,5 @@ func Search(c *gin.Context) {
 		c.JSON(err.Status, err)
 		return
 	}
-	c.JSON(http.StatusOK, users)
+	c.JSON(http.StatusOK, users.Marshall(c.GetHeader("X-Public") == "true"))
 }
