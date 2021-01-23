@@ -22,7 +22,6 @@ func (user *User) Get() *errors.RestErr {
 	if err != nil {
 		logger.Error("error when trying to prepare get user statement ", err)
 		return errors.NewInternalServerError("Database error")
-
 	}
 	defer stmt.Close()
 
@@ -41,11 +40,10 @@ func (user *User) Save() *errors.RestErr {
 		return errors.NewInternalServerError("Database error")
 	}
 	defer stmt.Close()
-	// user.DateCreated = date_utils.GetNowString()
 
 	insertResult, saveErr := stmt.Exec(user.FirstName, user.LastName, user.Email, user.DateCreated, user.Status, user.Password)
 	if saveErr != nil {
-		logger.Error("error when trying to save user statement ", saveErr)
+		logger.Error("error when trying to save user", saveErr)
 		return errors.NewInternalServerError("Database error")
 	}
 
@@ -68,7 +66,7 @@ func (user *User) Update() *errors.RestErr {
 
 	_, err = stmt.Exec(user.FirstName, user.LastName, user.Email, user.Id)
 	if err != nil {
-		logger.Error("error when trying to update user statement", err)
+		logger.Error("error when trying to update user", err)
 		return errors.NewInternalServerError("Database error")
 	}
 	return nil
